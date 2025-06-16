@@ -1,0 +1,830 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+
+<head>
+<title>PsychBot</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="description" content="PsychBot - A Psychological disorder predicting chatbot.">
+<meta name="author" content="Momina Imran, Mouz Ramzan">
+
+<link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+<!-- VENDOR CSS -->
+<link rel="stylesheet" href="{% static 'fullcalendar/fullcalendar.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}" ><!-- Bootstrap CSS -->
+<link rel="stylesheet" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
+
+<!-- MAIN CSS -->
+
+<link rel="stylesheet" href="{% static 'dark_assets/css/main.css' %}">
+<link rel="stylesheet" href="{% static 'dark_assets/css/color_skins.css' %}">
+</head>
+<body class="theme-cyan">
+
+    <!-- Page Loader -->
+<div class="page-loader-wrapper">
+    <div class="loader">
+        <div class="m-t-30"><img src="{% static 'images/logo_new.png' %}" width="48" height="48" alt=""></div>
+        <p>Please wait...</p>        
+    </div>
+</div>
+<!-- Overlay For Sidebars -->
+
+<div id="wrapper">
+
+    <nav class="navbar navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-btn">
+                <button type="button" class="btn-toggle-offcanvas"><i class="lnr lnr-menu fa fa-bars"></i></button>
+            </div>
+
+            <div class="navbar-brand">
+                <a href="{% url 'index' %}"><img src="{% static 'images/logo_new.png' %}" alt="" class="img-responsive logo"></a>
+            </div>
+            
+            <div class="navbar-right">
+                <div id="navbar-menu">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="{% url 'chat_page' %}" class="icon-menu d-none d-sm-block"><i class="icon-bubbles"></i></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'logout' %}" class="icon-menu"><i class="icon-login"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="left-sidebar" class="sidebar">
+        <div class="sidebar-scroll">
+            <div class="user-account">
+                <img src="{% static 'images/user.png' %}" id="profile_pic" class="rounded-circle user-photo" alt="User Profile Picture">
+                <div class="dropdown">
+                    <span>Welcome,</span>
+                    <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong>{{user.full_name}}</strong></a>
+                    <ul class="dropdown-menu dropdown-menu-right account">
+                        <li><a href="{% url 'profile' %}"><i class="icon-user"></i>My Profile</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{% url 'logout' %}"><i class="icon-power"></i>Logout</a></li>
+                    </ul>
+                </div>
+                <hr>
+            </div>
+                
+            <!-- Tab panes -->
+            <div class="tab-content p-l-0 p-r-0">
+                <div class="tab-pane active" id="menu">
+                    <nav id="left-sidebar-nav" class="sidebar-nav">
+                        <ul id="main-menu" class="metismenu">                            
+                            <li>
+                                <a href="{% url 'dashboard' %}"><i class="icon-home"></i> <span>Home</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'profile' %}"><i class="icon-user"></i> <span>Profile</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'chat_page' %}"><i class="icon-bubble"></i> <span>Chat</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'prescription' %}"><i class="icon-doc"></i> <span>Prescription</span></a>
+                            </li>
+                            <li class="active">
+                                <a href="{% url 'get_doctor_list' %}"><i class="icon-calendar"></i> <span>Appointment</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'scheduled_appointment' %}"><i class="icon-notebook"></i> <span>Scheduled Appointment</span></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>            
+            </div>          
+        </div>
+    </div>
+
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <div class="row">
+                    <div class="col-lg-5 col-md-8 col-sm-12">                        
+                        <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a>Appointment</h2>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}"><i class="icon-home"></i></a></li>
+                            <li class="breadcrumb-item active">Appointment</li>
+                        </ul>
+                    </div>            
+                </div>
+            </div>
+            <input type="hidden" name="hidden_id" id="hidden_id" value="{{user.id}}">
+            <input type="hidden" name="hidden_country" id="hidden_country">
+            <div id="doctor_list" class="row clearfix">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addcontact" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 style="color: black;" class="title" id="defaultModalLabel">Fix your appointment</h6>
+                </div>
+                <div class="modal-body">
+                    <div class="row clearfix">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <select id="day_1" name="day_1" class="form-control">
+                                    <option id="day_1_name" value="">-- Monday --</option>
+                                    <option id="day_1_1_time" value="">Not available</option>
+                                    <option id="day_1_2_time" value="">Not available</option>
+                                    <option id="day_1_3_time" value="">Not available</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <select id="day_2" name="day_2" class="form-control">
+                                    <option id="day_2_name" value="">-- Tuesday --</option>
+                                    <option id="day_2_1_time" value="">Not available</option>
+                                    <option id="day_2_2_time" value="">Not available</option>
+                                    <option id="day_2_3_time" value="">Not available</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <select id="day_3" name="day_3" class="form-control">
+                                    <option id="day_3_name" value="">-- Wednesday --</option>
+                                    <option id="day_3_1_time" value="">Not available</option>
+                                    <option id="day_3_2_time" value="">Not available</option>
+                                    <option id="day_3_3_time" value="">Not available</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <select id="day_4" name="day_4" class="form-control">
+                                    <option id="day_4_name" value="">-- Thursday --</option>
+                                    <option id="day_4_1_time" value="">Not available</option>
+                                    <option id="day_4_2_time" value="">Not available</option>
+                                    <option id="day_4_3_time" value="">Not available</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <select id="day_5" name="day_5" class="form-control">
+                                    <option id="day_5_name" value="">-- Friday --</option>
+                                    <option id="day_5_1_time" value="">Not available</option>
+                                    <option id="day_5_2_time" value="">Not available</option>
+                                    <option id="day_5_3_time" value="">Not available</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <select id="day_6" name="day_6" class="form-control">
+                                    <option id="day_6_name" value="">-- Saturday --</option>
+                                    <option id="day_6_1_time" value="">Not available</option>
+                                    <option id="day_6_2_time" value="">Not available</option>
+                                    <option id="day_6_3_time" value="">Not available</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <select id="day_7" name="day_7" class="form-control">
+                                    <option id="day_7_name" value="">-- Sunday --</option>
+                                    <option id="day_7_1_time" value="">Not available</option>
+                                    <option id="day_7_2_time" value="">Not available</option>
+                                    <option id="day_7_3_time" value="">Not available</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div id="hidden_doctor_pk"></div>
+                    <button id="add_doctor" type="button" onclick="select_appointment()" class="btn btn-primary">CONFRIM</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">CLOSE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<!-- Javascript -->
+<script src="{% static 'dark_assets/bundles/libscripts.bundle.js' %}"></script>
+<script src="{% static 'dark_assets/bundles/vendorscripts.bundle.js' %}"></script>
+
+<script src="{% static 'dark_assets/bundles/mainscripts.bundle.js' %}"></script>
+<script src="{% static 'dark_assets/bundles/fullcalendarscripts.bundle.js' %}"></script>
+
+<script src="{% static 'fullcalendar/fullcalendar.js' %}"></script><!--/ calender javascripts --> 
+
+<script src="{% static 'dark_assets/js/pages/calendar.js' %}"></script>
+<script>
+
+
+$(document).ready(function(){
+    debugger;
+    var hidden_id = $("#hidden_id").val();
+    var form_data = new FormData()
+    form_data.append('hidden_id', hidden_id)
+    $.ajax({
+        type: "POST",
+        url: "/get_user_country/",
+        data: form_data,
+        cache: false,
+        processData: false,
+        contentType: false,
+        success: function(data){
+            console.log(data)
+            var country = data['country']
+            $('#hidden_country').val(country)
+            var hidden_country = $("#hidden_country").val();
+            var hidden_id = $("#hidden_id").val();
+            var form_data = new FormData()
+            form_data.append('user_pk', hidden_id)
+            form_data.append('country', hidden_country)
+                $.ajax({
+                    type: "POST",
+                    url: "/get_doctor_list/",
+                    data: form_data,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function(data){
+                        debugger;
+                        console.log(data)
+                       status = data['status']
+                    //    if (status == 'success'){
+                        console.log(data)
+                        var data_list = data['data_list']
+                        for (let i = 0; i < data_list.length; i++) {
+                            var doctor_name = data_list[i]['name']
+                            var doctor_picture = data_list[i]['image']
+                            var doctor_qualification = data_list[i]['qualification']
+                            var doctor_workspace = data_list[i]['workspace']
+                            var doctor_pk = data_list[i]['pk']
+                            var a = ''
+                            a += '<div class="col-lg-6 col-md-6 col-sm-6">'
+                            a += '<div class="card overflowhidden number-chart">'
+                            a += '<div class="body text-center">'
+                            a += '<div class="text-center">'
+                            a += '<img width="150px" height="150px" src="'+ doctor_picture +'" class="rounded-circle m-b-15" alt="">'
+                            a += '<div>'
+                            a += '<h4 class="m-b-0"><strong>'+ doctor_name +'</strong></h4>'
+                            a += '<span>'+ doctor_qualification +'</span>'
+                            a += '</br>'
+                            a += '<span>'+ doctor_workspace +'</span>'
+                            a += '</div>'
+                            a += '</div>'
+                            a += '<hr>'
+                            a += '<input type="hidden" value="'+ doctor_pk +'">'
+                            a += '<button onclick="get_timing()" type="button" id="get_timing" data-toggle="modal" data-target="#addcontact" class="btn btn-outline-light">Book Appointment</button>'
+                            a += '</div>'
+                            a += '</div>'
+                            a += '</div>'
+                            $('#doctor_list').append(a)
+                            var b = ''
+                            b += '<input type="hidden" value="'+ doctor_pk +'">'
+                            $('#hidden_doctor_pk').append(b)
+                        }
+                    //    }
+
+                       if (status == 'not found'){
+                        var a = ''
+                        a += '<div class="col-md-12 text-center">'
+                        a += '<h4>Please make your profile first to see doctors of your country!</h4>'
+                        a += '</div>'
+                        $('#doctor_list').append(a)
+                       }
+                    }
+                })
+        }
+    })
+});
+
+
+
+
+function get_timing(){
+    var hidden_id = $("#hidden_id").val();
+    var pk = event.target.parentNode.childNodes[2].value;
+    console.log(pk)
+
+    var form_data = new FormData()
+    form_data.append('pk', pk)
+    form_data.append('user_pk', hidden_id)
+    $.ajax({
+        type: "POST",
+        url: "/get_doctor_timing/",
+        data: form_data,
+        cache: false,
+        processData: false,
+        contentType: false,
+        success: function(data){
+            debugger;
+            console.log(data)
+            var status = data['status']
+            var list = data['all_list']
+            // var all_list = data['all_list']
+            var days = data['days']
+            // console.log(all_list)
+
+            const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+            
+
+            var first_day = new Date();
+            // var first_day_name = first_day.getDay();
+            let first_day_name = weekday[first_day.getDay()];
+            var first_dd = String(first_day.getDate()).padStart(2, '0');
+            var first_mm = String(first_day.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var first_yyyy = first_day.getFullYear();
+
+            first_day = first_mm + '/' + first_dd + '/' + first_yyyy;
+
+            var date_1 = first_day
+
+            var second_day = new Date();
+            second_day.setDate(second_day.getDate() + 1)
+            // var second_day_name = second_day.getDay();
+            let second_day_name = weekday[second_day.getDay()];
+            var second_dd = String(second_day.getDate()).padStart(2, '0');
+            var second_mm = String(second_day.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var second_yyyy = second_day.getFullYear();
+
+            second_day = second_mm + '/' + second_dd + '/' + second_yyyy;
+
+            var date_2 = second_day
+
+            var third_day = new Date();
+            third_day.setDate(third_day.getDate() + 2)
+            // var third_day_name = third_day.getDay();
+            let third_day_name = weekday[third_day.getDay()];
+            var third_dd = String(third_day.getDate()).padStart(2, '0');
+            var third_mm = String(third_day.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var third_yyyy = third_day.getFullYear();
+
+            third_day = third_mm + '/' + third_dd + '/' + third_yyyy;
+
+            var date_3 = third_day
+
+            var four_day = new Date();
+            four_day.setDate(four_day.getDate() + 3)
+            // var four_day_name = four_day.getDay();
+            let four_day_name = weekday[four_day.getDay()];
+            var four_dd = String(four_day.getDate()).padStart(2, '0');
+            var four_mm = String(four_day.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var four_yyyy = four_day.getFullYear();
+
+            four_day = four_mm + '/' + four_dd + '/' + four_yyyy;
+            var date_4 = four_day
+
+            var five_day = new Date();
+            five_day.setDate(five_day.getDate() + 4)
+            // var five_day_name = five_day.getDay();
+            let five_day_name = weekday[five_day.getDay()];
+            var five_dd = String(five_day.getDate()).padStart(2, '0');
+            var five_mm = String(five_day.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var five_yyyy = five_day.getFullYear();
+
+            five_day = five_mm + '/' + five_dd + '/' + five_yyyy;
+
+            var date_5 = five_day
+
+            var six_day = new Date();
+            six_day.setDate(six_day.getDate() + 5)
+            // var six_day_name = six_day.getDay();
+            let six_day_name = weekday[six_day.getDay()];
+            var six_dd = String(six_day.getDate()).padStart(2, '0');
+            var six_mm = String(six_day.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var six_yyyy = six_day.getFullYear();
+
+            six_day = six_mm + '/' + six_dd + '/' + six_yyyy;
+
+            var date_6 = six_day
+
+            var seven_day = new Date();
+            seven_day.setDate(seven_day.getDate() + 6)
+            // var seven_day_name = seven_day.getDay();
+            let seven_day_name = weekday[seven_day.getDay()];
+            var seven_dd = String(seven_day.getDate()).padStart(2, '0');
+            var seven_mm = String(seven_day.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var seven_yyyy = seven_day.getFullYear();
+
+            seven_day = seven_mm + '/' + seven_dd + '/' + seven_yyyy;
+
+            var date_7 = seven_day
+
+            var first_time_mon = list['0']['timing']
+            var first_time_mon_pk = list['0']['pk']
+            var first_time_mon_status = list['0']['status']
+            if (first_time_mon_status == true){
+                first_time_mon = first_time_mon || 'Not Avialable';
+            }
+            var second_time_mon = list['1']['timing']
+            var second_time_mon_pk = list['1']['pk']
+            var second_time_mon_status = list['1']['status']
+            if (second_time_mon_status == true){
+                second_time_mon = second_time_mon || 'Not Avialable';
+            }
+            var third_time_mon = list['2']['timing']
+            var third_time_mon_pk = list['2']['pk']
+            var third_time_mon_status = list['2']['status']
+            if (third_time_mon_status == true){
+                third_time_mon = third_time_mon || 'Not Avialable';
+            }
+
+            var first_time_tue = list['3']['timing']
+            var first_time_tue_pk = list['3']['pk']
+            var first_time_tue_status = list['3']['status']
+            if (first_time_tue_status == true){
+                first_time_tue = first_time_tue || 'Not Avialable';
+            }
+            var second_time_tue = list['4']['timing']
+            var second_time_tue_pk = list['4']['pk']
+            var second_time_tue_status = list['4']['status']
+            if (second_time_tue_status == true){
+                second_time_tue = second_time_tue || 'Not Avialable';
+            }
+            var third_time_tue = list['5']['timing']
+            var third_time_tue_pk = list['5']['pk']
+            var third_time_tue_status = list['5']['status']
+            if (third_time_tue_status == true){
+                third_time_tue = third_time_tue || 'Not Avialable';
+            }
+
+            var first_time_wed = list['6']['timing']
+            var first_time_wed_pk = list['6']['pk']
+            var first_time_wed_status = list['6']['status']
+            if (first_time_wed_status == true){
+                first_time_wed = first_time_wed || 'Not Avialable';
+            }
+            var second_time_wed = list['7']['timing']
+            var second_time_wed_pk = list['7']['pk']
+            var second_time_wed_status = list['7']['status']
+            if (second_time_wed_status == true){
+                second_time_wed = second_time_wed || 'Not Avialable';
+            }
+            var third_time_wed = list['8']['timing']
+            var third_time_wed_pk = list['8']['pk']
+            var third_time_wed_status = list['8']['status']
+            if (third_time_wed_status == true){
+                third_time_wed = third_time_wed || 'Not Avialable';
+            }
+
+            var first_time_thur = list['9']['timing']
+            var first_time_thur_pk = list['9']['pk']
+            var first_time_thur_status = list['9']['status']
+            if (first_time_thur_status == true){
+                first_time_thur = first_time_thur || 'Not Avialable';
+            }
+            var second_time_thur = list['10']['timing']
+            var second_time_thur_pk = list['10']['pk']
+            var second_time_thur_status = list['10']['status']
+            if (second_time_thur_status == true){
+                second_time_thur = second_time_thur || 'Not Avialable';
+            }
+            var third_time_thur = list['11']['timing']
+            var third_time_thur_pk = list['11']['pk']
+            var third_time_thur_status = list['11']['status']
+            if (third_time_thur_status == true){
+                third_time_thur = third_time_thur || 'Not Avialable';
+            }
+
+            var first_time_fri = list['12']['timing']
+            var first_time_fri_pk = list['12']['pk']
+            var first_time_fri_status = list['12']['status']
+            if (first_time_fri_status == true){
+                first_time_fri = first_time_fri || 'Not Avialable';
+            }
+            var second_time_fri = list['13']['timing']
+            var second_time_fri_pk = list['13']['pk']
+            var second_time_fri_status = list['13']['status']
+            if (second_time_fri_status == true){
+                second_time_fri = second_time_fri || 'Not Avialable';
+            }
+            var third_time_fri = list['14']['timing']
+            var third_time_fri_pk = list['14']['pk']
+            var third_time_fri_status = list['14']['status']
+            if (third_time_fri_status == true){
+                third_time_fri = third_time_fri || 'Not Avialable';
+            }
+
+            var first_time_sat = list['15']['timing']
+            var first_time_sat_pk = list['15']['pk']
+            var first_time_sat_status = list['15']['status']
+            if (first_time_sat_status == true){
+                first_time_sat = 'Not Avialable';
+            }
+            var second_time_sat = list['16']['timing']
+            var second_time_sat_pk = list['16']['pk']
+            var second_time_sat_status = list['16']['status']
+            if (second_time_sat_status == true){
+                second_time_sat = second_time_sat || 'Not Avialable';
+            }
+            var third_time_sat = list['17']['timing']
+            var third_time_sat_pk = list['17']['pk']
+            var third_time_sat_status = list['17']['status']
+            if (third_time_sat_status == true){
+                third_time_sat = third_time_sat || 'Not Avialable';
+            }
+
+            var first_time_sun = list['18']['timing']
+            var first_time_sun_pk = list['18']['pk']
+            var first_time_sun_status = list['18']['status']
+            if (first_time_sun_status == true){
+                first_time_sun = first_time_sun || 'Not Avialable';
+            }
+
+            var second_time_sun = list['19']['timing']
+            var second_time_sun_pk = list['19']['pk']
+            var second_time_sun_status = list['19']['status']
+            if (second_time_sun_status == true){
+                second_time_sun = second_time_sun || 'Not Avialable';
+            }
+
+            var third_time_sun = list['20']['timing']
+            var third_time_sun_pk = list['20']['pk']
+            var third_time_sun_status = list['20']['status']
+            if (third_time_sun_status == true){
+                third_time_sun = third_time_sun || 'Not Avialable';
+            }
+        
+
+
+            // console.log(day_1, day_2, day_3, day_4, day_5, day_6, day_7)
+            if (status == 'success'){
+                $('#day_1_name').val(first_day_name + date_1);
+                $('#day_2_name').val(second_day_name + date_2);
+                $('#day_3_name').val(third_day_name + date_3);
+                $('#day_4_name').val(four_day_name + date_4);
+                $('#day_5_name').val(five_day_name + date_5);
+                $('#day_6_name').val(six_day_name + date_6);
+                $('#day_7_name').val(seven_day_name + date_7);
+
+                $('#day_1_name').text(first_day_name + ' ' + date_1);
+                $('#day_2_name').text(second_day_name + ' ' + date_2);
+                $('#day_3_name').text(third_day_name + ' ' + date_3);
+                $('#day_4_name').text(four_day_name + ' ' + date_4);
+                $('#day_5_name').text(five_day_name + ' ' + date_5);
+                $('#day_6_name').text(six_day_name + ' ' + date_6);
+                $('#day_7_name').text(seven_day_name + ' ' + date_7);
+
+
+                $("#day_1_1_time").val(first_time_mon_pk)
+                $("#day_1_2_time").val(second_time_mon_pk)
+                $("#day_1_3_time").val(third_time_mon_pk)
+
+                $("#day_2_1_time").val(first_time_tue_pk)
+                $("#day_2_2_time").val(second_time_tue_pk)
+                $("#day_2_3_time").val(third_time_tue_pk)
+
+                $("#day_3_1_time").val(first_time_wed_pk)
+                $("#day_3_2_time").val(second_time_wed_pk)
+                $("#day_3_3_time").val(third_time_wed_pk)
+
+                $("#day_4_1_time").val(first_time_thur_pk)
+                $("#day_4_2_time").val(second_time_thur_pk)
+                $("#day_4_3_time").val(third_time_thur_pk)
+
+                $("#day_5_1_time").val(first_time_fri_pk)
+                $("#day_5_2_time").val(second_time_fri_pk)
+                $("#day_5_3_time").val(third_time_fri_pk)
+
+                $("#day_6_1_time").val(first_time_sat_pk)
+                $("#day_6_2_time").val(second_time_sat_pk)
+                $("#day_6_3_time").val(third_time_sat_pk)
+
+                $("#day_7_1_time").val(first_time_sun_pk)
+                $("#day_7_2_time").val(second_time_sun_pk)
+                $("#day_7_3_time").val(third_time_sun_pk)
+
+
+                $("#day_1_1_time").text(first_time_mon)
+                $("#day_1_2_time").text(second_time_mon)
+                $("#day_1_3_time").text(third_time_mon)
+
+                $("#day_2_1_time").text(first_time_tue)
+                $("#day_2_2_time").text(second_time_tue)
+                $("#day_2_3_time").text(third_time_tue)
+
+                $("#day_3_1_time").text(first_time_wed)
+                $("#day_3_2_time").text(second_time_wed)
+                $("#day_3_3_time").text(third_time_wed)
+
+                $("#day_4_1_time").text(first_time_thur)
+                $("#day_4_2_time").text(second_time_thur)
+                $("#day_4_3_time").text(third_time_thur)
+
+                $("#day_5_1_time").text(first_time_fri)
+                $("#day_5_2_time").text(second_time_fri)
+                $("#day_5_3_time").text(third_time_fri)
+
+                $("#day_6_1_time").text(first_time_sat)
+                $("#day_6_2_time").text(second_time_sat)
+                $("#day_6_3_time").text(third_time_sat)
+
+                $("#day_7_1_time").text(first_time_sun)
+                $("#day_7_2_time").text(second_time_sun)
+                $("#day_7_3_time").text(third_time_sun)
+
+            }
+
+            if (status == 'failed'){
+            }
+        }
+    })
+}
+
+
+
+
+
+
+$(document).ready(function(){
+    var hidden_id = $("#hidden_id").val();
+    var form_data = new FormData()
+    form_data.append('hidden_id', hidden_id)
+    $.ajax({
+        type: "POST",
+        url: "/get_profile/",
+        data: form_data,
+        cache: false,
+        processData: false,
+        contentType: false,
+        success: function(data){
+            console.log(data)
+            var image = data['data_list'][0]['image']
+            $("#profile_pic").attr("src", image);
+
+        }
+    })
+});
+
+
+$('#day_1').on("change",function() {
+
+    $('#day_2').prop('selectedIndex',0);
+    $('#day_3').prop('selectedIndex',0);
+    $('#day_4').prop('selectedIndex',0);
+    $('#day_5').prop('selectedIndex',0);
+    $('#day_6').prop('selectedIndex',0);
+    $('#day_7').prop('selectedIndex',0);
+
+});
+
+$('#day_2').on("change",function() {
+
+    $('#day_1').prop('selectedIndex',0);
+    $('#day_3').prop('selectedIndex',0);
+    $('#day_4').prop('selectedIndex',0);
+    $('#day_5').prop('selectedIndex',0);
+    $('#day_6').prop('selectedIndex',0);
+    $('#day_7').prop('selectedIndex',0);
+
+});
+
+$('#day_3').on("change",function() {
+
+    $('#day_1').prop('selectedIndex',0);
+    $('#day_2').prop('selectedIndex',0);
+    $('#day_4').prop('selectedIndex',0);
+    $('#day_5').prop('selectedIndex',0);
+    $('#day_6').prop('selectedIndex',0);
+    $('#day_7').prop('selectedIndex',0);
+
+});
+
+$('#day_4').on("change",function() {
+
+    $('#day_1').prop('selectedIndex',0);
+    $('#day_2').prop('selectedIndex',0);
+    $('#day_3').prop('selectedIndex',0);
+    $('#day_5').prop('selectedIndex',0);
+    $('#day_6').prop('selectedIndex',0);
+    $('#day_7').prop('selectedIndex',0);
+
+});
+
+$('#day_5').on("change",function() {
+
+    $('#day_1').prop('selectedIndex',0);
+    $('#day_2').prop('selectedIndex',0);
+    $('#day_3').prop('selectedIndex',0);
+    $('#day_4').prop('selectedIndex',0);
+    $('#day_6').prop('selectedIndex',0);
+    $('#day_7').prop('selectedIndex',0);
+
+});
+
+$('#day_6').on("change",function() {
+
+    $('#day_1').prop('selectedIndex',0);
+    $('#day_2').prop('selectedIndex',0);
+    $('#day_3').prop('selectedIndex',0);
+    $('#day_4').prop('selectedIndex',0);
+    $('#day_5').prop('selectedIndex',0);
+    $('#day_7').prop('selectedIndex',0);
+
+});
+
+
+$('#day_7').on("change",function() {
+
+    $('#day_1').prop('selectedIndex',0);
+    $('#day_2').prop('selectedIndex',0);
+    $('#day_3').prop('selectedIndex',0);
+    $('#day_4').prop('selectedIndex',0);
+    $('#day_5').prop('selectedIndex',0);
+    $('#day_6').prop('selectedIndex',0);
+
+});
+
+
+
+
+function select_appointment(){
+    debugger;
+    var day_1 = $('#day_1').val();
+    var day_2 = $('#day_2').val();
+    var day_3 = $('#day_3').val();
+    var day_4 = $('#day_4').val();
+    var day_5 = $('#day_5').val();
+    var day_6 = $('#day_6').val();
+    var day_7 = $('#day_6').val();
+    var day = ''
+    if (day_1 % 1 === 0){
+        day= day_1
+    }
+    else if (day_2 % 1 === 0){
+        day= day_2
+    }
+    else if (day_3 % 1 === 0){
+        day = day_3
+    }
+    else if (day_4 % 1 === 0){
+        day = day_4
+    }
+    else if (day_5 % 1 === 0){
+        day = day_5
+    }
+    else if (day_6 % 1 === 0){
+        day = day_6
+    }
+    else if (day_7 % 1 === 0){
+        day = day_7
+    }
+    var hidden_id = $("#hidden_id").val();
+    var doctor_pk = event.target.parentNode.childNodes[1].childNodes[0].value;
+    console.log(doctor_pk)
+
+    var form_data = new FormData()
+    form_data.append('pk', day)
+    $.ajax({
+        type: "POST",
+        url: "/time_check/",
+        data: form_data,
+        cache: false,
+        processData: false,
+        contentType: false,
+        success: function(data){
+            console.log(data)
+            status = data['status']
+            if (status == 'success'){
+                var form_data = new FormData()
+                form_data.append('time_pk', day)
+                form_data.append('doctor_pk', doctor_pk)
+                form_data.append('user_pk', hidden_id)
+                $.ajax({
+                    type: "POST",
+                    url: "/appointment_fix/",
+                    data: form_data,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function(data){
+                        console.log(data)
+                        status = data['status']
+                        if (status == 'success'){
+                            $.notify("Your appointment has been successfully fixed.", "success");
+                        }
+                    }
+                })
+            }
+        }
+    })
+
+}
+
+
+
+</script>
+</body>
+</html>

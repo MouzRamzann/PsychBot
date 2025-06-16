@@ -1,0 +1,272 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+
+<head>
+<title>PsychBot</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="description" content="PsychBot - A Psychological disorder predicting chatbot.">
+<meta name="author" content="Momina Imran, Mouz Ramzan">
+
+<link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+<!-- VENDOR CSS -->
+<link rel="stylesheet" href="{% static 'fullcalendar/fullcalendar.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}" ><!-- Bootstrap CSS -->
+<link rel="stylesheet" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
+
+<!-- MAIN CSS -->
+
+<link rel="stylesheet" href="{% static 'dark_assets/css/main.css' %}">
+<link rel="stylesheet" href="{% static 'dark_assets/css/color_skins.css' %}">
+</head>
+<body class="theme-cyan">
+
+    <!-- Page Loader -->
+<div class="page-loader-wrapper">
+    <div class="loader">
+        <div class="m-t-30"><img src="{% static 'images/logo_new.png' %}" width="48" height="48"></div>
+        <p>Please wait...</p>        
+    </div>
+</div>
+<!-- Overlay For Sidebars -->
+
+<div id="wrapper">
+
+    <nav class="navbar navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-btn">
+                <button type="button" class="btn-toggle-offcanvas"><i class="lnr lnr-menu fa fa-bars"></i></button>
+            </div>
+
+            <div class="navbar-brand">
+                <a href="{% url 'index' %}"><img src="{% static 'images/logo_new.png' %}" alt="" class="img-responsive logo"></a>
+            </div>
+            
+            <div class="navbar-right">
+                <div id="navbar-menu">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="{% url 'chat_page' %}" class="icon-menu d-none d-sm-block"><i class="icon-bubbles"></i></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'logout' %}" class="icon-menu"><i class="icon-login"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="left-sidebar" class="sidebar">
+        <div class="sidebar-scroll">
+            <div class="user-account">
+                <img src="{% static 'images/user.png' %}" id="profile_pic" class="rounded-circle user-photo" alt="User Profile Picture">
+                <div class="dropdown">
+                    <span>Welcome,</span>
+                    <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong>{{user.full_name}}</strong></a>
+                    <ul class="dropdown-menu dropdown-menu-right account">
+                        <li><a href="{% url 'profile' %}"><i class="icon-user"></i>My Profile</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{% url 'logout' %}"><i class="icon-power"></i>Logout</a></li>
+                    </ul>
+                </div>
+                <hr>
+            </div>
+                
+            <!-- Tab panes -->
+            <div class="tab-content p-l-0 p-r-0">
+                <div class="tab-pane active" id="menu">
+                    <nav id="left-sidebar-nav" class="sidebar-nav">
+                        <ul id="main-menu" class="metismenu">                            
+                            <li>
+                                <a href="{% url 'dashboard' %}"><i class="icon-home"></i> <span>Home</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'profile' %}"><i class="icon-user"></i> <span>Profile</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'chat_page' %}"><i class="icon-bubble"></i> <span>Chat</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'prescription' %}"><i class="icon-doc"></i> <span>Prescription</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'get_doctor_list' %}"><i class="icon-calendar"></i> <span>Appointment</span></a>
+                            </li>
+                            <li class="active">
+                                <a href="{% url 'scheduled_appointment' %}"><i class="icon-notebook"></i> <span>Scheduled Appointment</span></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>            
+            </div>          
+        </div>
+    </div>
+
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <div class="row">
+                    <div class="col-lg-5 col-md-8 col-sm-12">                        
+                        <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a>Scheduled Appointment</h2>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}"><i class="icon-home"></i></a></li>
+                            <li class="breadcrumb-item active">Scheduled Appointment</li>
+                        </ul>
+                    </div>            
+                </div>
+            </div>
+
+            <div class="row clearfix">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="body">
+                            <div id="calendar"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card profile-header">
+                        <input type="hidden" name="hidden_id" id="hidden_id" value="{{user.id}}">
+                        <div class="body">
+                            <div class="text-center">
+                                <img id="doctor_pic" height="150px" width="150px" src="{% static 'images/user.png' %}" class="rounded-circle m-b-15" alt="">
+                                <div>
+                                    <h4 id="doctor_name" class="m-b-0"><strong>Dr Momina Imran</strong></h4>
+                                    <span id="doctor_qualification">Lahore, Pakistan</span>
+                                </div>
+                            </div>
+                            <hr>
+                            <ul>
+                                <li id="doctor_workspace" class="welcome_list">Lahore, Pakistan.</li>
+                                <li id="doctor_number" class="welcome_list">+92 34674675</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<!-- Javascript -->
+<script src="{% static 'dark_assets/bundles/libscripts.bundle.js' %}"></script>
+<script src="{% static 'dark_assets/bundles/vendorscripts.bundle.js' %}"></script>
+
+<script src="{% static 'dark_assets/bundles/mainscripts.bundle.js' %}"></script>
+<script src="{% static 'dark_assets/bundles/fullcalendarscripts.bundle.js' %}"></script>
+
+<script src="{% static 'fullcalendar/fullcalendar.js' %}"></script><!--/ calender javascripts --> 
+
+<!-- <script src="{% static 'dark_assets/js/pages/calendar.js' %}"></script> -->
+<script>
+    $(document).ready(function(){
+    var hidden_id = $("#hidden_id").val();
+    var form_data = new FormData()
+    form_data.append('hidden_id', hidden_id)
+    $.ajax({
+        type: "POST",
+        url: "/get_profile/",
+        data: form_data,
+        cache: false,
+        processData: false,
+        contentType: false,
+        success: function(data){
+            console.log(data)
+            var image = data['data_list'][0]['image']
+            var image = data['data_list'][0]['image']
+            var image = data['data_list'][0]['image']
+            var image = data['data_list'][0]['image']
+            $("#profile_pic").attr("src", image);
+
+        }
+    })
+});
+
+
+
+$(document).ready(function(){
+    var hidden_id = $("#hidden_id").val();
+    var form_data = new FormData()
+    form_data.append('pk', hidden_id)
+    $.ajax({
+        type: "POST",
+        url: "/scheduled_appointment/",
+        data: form_data,
+        cache: false,
+        processData: false,
+        contentType: false,
+        success: function(data){
+            debugger;
+            console.log(data)
+            var status = data['status']
+            if (status=='success'){
+            var doctor_pk = data['appointment_list'][0]['doctor_pk']
+            var appointment_date = data['appointment_list'][0]['date']
+            var appointment_time = data['appointment_list'][0]['time']
+            "use strict";
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay,listWeek'
+                },
+                defaultDate: new Date(),
+                editable: true,
+                droppable: true, // this allows things to be dropped onto the calendar
+                drop: function() {
+                    // is the "remove after drop" checkbox checked?
+                    if ($('#drop-remove').is(':checked')) {
+                        // if so, remove the element from the "Draggable Events" list
+                        $(this).remove();
+                    }
+                },
+                eventLimit: true, // allow "more" link when too many events
+                events: [
+                    {
+                        title: appointment_time,
+                        start: appointment_date,
+                        className: 'bg-info',
+                        
+                    },
+                ]
+            });
+            form_data.append('pk', doctor_pk)
+            $.ajax({
+                type: "POST",
+                url: "/get_doc_details/",
+                data: form_data,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function(data){
+                    debugger;
+                    console.log(data)
+                    var image = data['doctor_list'][0]['image']
+                    var qualification = data['doctor_list'][0]['qualification']
+                    var workspace = data['doctor_list'][0]['workspace']
+                    var number = data['doctor_list'][0]['number']
+                    var name = data['doctor_list'][0]['name']
+                    $("#doctor_pic").attr("src", image);
+                    $("#doctor_name").text(name);
+                    $("#doctor_qualification").text(qualification);
+                    $("#doctor_workspace").text(workspace);
+                    $("#doctor_number").text(number);
+
+                }
+            })
+            }
+        }
+    })
+});
+
+
+
+    
+
+</script>
+</body>
+</html>

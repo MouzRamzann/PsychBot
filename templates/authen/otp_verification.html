@@ -1,0 +1,61 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+
+<head>
+<title>PsychBot</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="description" content="PsychBot - A Psychological disorder predicting chatbot.">
+<meta name="author" content="Momina Imran, Mouz Ramzan">
+
+<link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+<!-- VENDOR CSS -->
+<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
+
+<!-- MAIN CSS -->
+<link rel="stylesheet" href="{% static 'dark_assets/css/main.css' %}">
+<link rel="stylesheet" href="{% static 'dark_assets/css/color_skins.css' %}">
+</head>
+
+<body class="theme-cyan">
+	<!-- WRAPPER -->
+	<div id="wrapper">
+		<div class="vertical-align-wrap">
+			<div class="vertical-align-middle auth-main">
+				<div class="auth-box">
+                    <div class="top">
+                        <img src="{% static 'images/logo_new.png' %}" alt="">
+                    </div>
+					<div class="card">
+                        <div class="header">
+                            {% if description %}
+                            <p style="color:red;">{{description}}</p>
+                            {% endif %}
+                            <p class="lead">Verify OTP</p>
+                        </div>
+                        <div class="body">
+                            <p>Please enter OTP sent to you on email address provided by you.</p>
+                            <form class="form-auth-small" method="post" action="">
+                                <div class="form-group">
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="Email">
+                                </div>
+                                <div class="form-group">                                    
+                                    <input type="number" class="form-control" name="OTP" id="signup-password" placeholder="OTP">
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">VERIFY</button>
+<!--                                <div class="bottom">-->
+<!--                                    <span class="helper-text">Already have an account? <a href="page-login.html">Login</a></span>-->
+<!--                                </div>-->
+                            </form>
+                        </div>
+                    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END WRAPPER -->
+</body>
+</html>

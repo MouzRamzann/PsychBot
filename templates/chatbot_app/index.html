@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+<title>PsychBot</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="PsychBot - A Psychological disorder predicting chatbot.">
+<meta name="author" content="Momina Imran, Mouz Ramzan">
+
+<link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+
+<link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}" ><!-- Bootstrap CSS -->
+<link rel="stylesheet" type="text/css" href="{% static 'assets/fonts/simple-line-icons.css' %}"><!-- Icon -->
+<link rel="stylesheet" type="text/css" href="{% static 'assets/css/slicknav.css' %}"><!-- Slicknav -->
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'assets/css/animate.css' %}"><!-- Animate -->
+<link rel="stylesheet" type="text/css" href="{% static 'assets/css/main.css' %}"><!-- Main Style -->
+<link rel="stylesheet" type="text/css" href="{% static 'assets/css/responsive.css' %}"><!-- Responsive Style -->
+
+</head>
+<body>
+<header id="header-wrap">
+    <nav class="navbar navbar-expand-lg fixed-top scrolling-navbar indigo">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="icon-menu"></span>
+                    <span class="icon-menu"></span>
+                    <span class="icon-menu"></span>
+                </button>
+                <a href="{% url 'index' %}" class="navbar-brand"><img style="width: 120px;" src="{% static 'images/logo_new.png' %}" alt=""></a>
+            </div>
+            <div class="collapse navbar-collapse" id="main-navbar">
+                <ul class="navbar-nav mr-auto justify-content-left clearfix">
+                    <li class="nav-item active"><a class="nav-link" href="#hero-area">Home</a></li>                    
+                    <li class="nav-item"><a class="nav-link" href="#feature">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#testimonial">Vision</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#About">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+
+                </ul>
+                <div class="btn-sing float-right">
+                    <a class="btn btn-outline-primary" href="{% url 'login' %}">Sign In</a>
+                    <a class="btn btn-primary" href="{% url 'signup' %}">Sign Up</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Start -->
+        <ul class="mobile-menu navbar-nav">
+            <li><a class="page-scroll" href="#hero-area">Home</a></li>            
+            <li><a class="page-scroll" href="#feature">Feature</a></li>
+            <li><a class="page-scroll" href="#testimonial">Vision</a></li>
+            <li><a class="page-scroll" href="#About">About</a></li>
+            <li><a class="page-scroll" href="#contact">Contact</a></li>
+        </ul>
+
+    </nav>
+
+    <!-- Hero Area Start -->
+    <div id="hero-area" class="hero-area-bg">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row clearfix">
+                <div class="col-md-12 col-sm-12">
+                    <div class="contents text-center">
+                        <h2 class="head-title wow fadeInUp">BE A SOMEBODY TO SOMEONE.
+                        <div class="header-button wow fadeInUp" data-wow-delay="0.3s">
+                            <a href="{% url 'chat_page' %}" class="btn btn-outline-primary">Start Chat</a>
+                        </div>
+                    </div>
+                    <div class="img-thumb text-center wow fadeInUp" data-wow-delay="0.6s">
+                        <img class="img-fluid" src="{% static 'images/3.png' %}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</header>
+
+<!-- Features Section Start -->
+<section id="feature" class="section-padding">
+    <div class="container">
+        <div class="section-header text-center">
+            <h2 class="section-title wow fadeInDown" data-wow-delay="0.3s">Amazing Features</h2>
+            <span class="sub-title wow fadeInDown" data-wow-delay="0.5s">Let our chatbot be your guide on the path to better mental health</span>
+        </div>
+        <div class="row clearfix">
+            <div class="col-md-6 col-lg-4">
+                <div class="services-item wow fadeInRight" data-wow-delay="0.3s">
+                    <div class="icon"><i class="icon-screen-desktop"></i></div>
+                    <div class="services-content">
+                        <h3>Symptoms Checker</h3>
+                        <p>The chatbot will ask the user questions about their symptoms, such as how often they occur, how severe they are, and how they affect the user's daily life.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="services-item wow fadeInRight" data-wow-delay="0.6s">
+                    <div class="icon"><i class="icon-bar-chart"></i>
+                    </div>
+                    <div class="services-content">
+                        <h3>Diagnosis Prediction</h3>
+                        <p>Based on the user's symptoms, the chatbot will use machine learning algorithms to predict which psychological disorders the user may be experiencing.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="services-item wow fadeInRight" data-wow-delay="0.9s">
+                    <div class="icon"><i class="icon-notebook"></i></div>
+                    <div class="services-content">
+                        <h3>Doctor Recommendation</h3>
+                        <p> The chatbot will provide the user with a list of nearby doctors who specialize in treating the particular psychological disorder that the chatbot has predicted.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="services-item wow fadeInRight" data-wow-delay="1.2s">
+                    <div class="icon"><i class="icon-users"></i></div>
+                    <div class="services-content">
+                        <h3>Crisis Support</h3>
+                        <p> If the chatbot determines that the user is experiencing a mental health crisis, it will provide them with resources and support for getting help immediately.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="services-item wow fadeInRight" data-wow-delay="1.5s">
+                    <div class="icon"><i class="icon-calendar"></i></div>
+                    <div class="services-content">
+                        <h3>Scheduling Appointment</h3>
+                        <p>The chatbot will provide the evaluation of user's symptoms and disorder. And upon user's request it will book an appointment with the doctor available nearby.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="services-item wow fadeInRight" data-wow-delay="1.8s">
+                    <div class="icon"><i class="icon-book-open"></i></div>
+                    <div class="services-content">
+                        <h3>Coping Strategies</h3>
+                        <p>The chatbot will suggest coping strategies and techniques, such as relaxation techniques or mindfulness practices, that the user can try to help manage their symptoms.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonial Section Start -->
+<section id="testimonial" class="subscribes section-padding">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7 col-md-12 col-sm-12">
+                <div id="testimonials" data-wow-delay="1.2s">
+                    <div class="item">
+                        <div class="testimonial-item">
+                            <div class="content">
+                                <p class="description">Our Psychological disorder predicting chatbot provides accessible, affordable, and convenient support for individuals who are experiencing psychological distress. With this chatbot, the goal is to help people get the support and treatment they need to manage their symptoms and improve their mental health.</p>
+                            </div>
+                            <div class="img-thumb">
+                                <img style="width: 70px;" src="{% static 'images/7.jpg' %}" alt="">
+                            </div>
+                            <div class="info">
+                                <h2>PsychBot</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- About Section Start -->
+<div id="About">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="text-wrapper">
+                    <div>
+                        <h2 class="title-hl wow fadeInLeft" data-wow-delay="0.3s">About Us</h2>
+                        <span class="sub-title wow fadeInDown" data-wow-delay="0.5s">Get personalized support for your mental health, anytime, anywhere.</span>
+                        <div class="row clearfix">
+                            <div class="col-md-6 col-sm-6">
+                                <div class="features-box wow fadeInLeft" data-wow-delay="0.3s">
+                                    <div class="features-icon"><i class="icon-layers"></i></div>
+                                    <div class="features-content">
+                                    <h4>Motive</h4>
+                                    <p>We are dedicated to improving access to mental health support for people around the world. We believe that everyone deserves the opportunity to live a healthy and fulfilling life, and that includes taking care of their mental well-being.</p>
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="col-md-6 col-sm-6">
+                                <div class="features-box wow fadeInLeft" data-wow-delay="0.6s">
+                                    <div class="features-icon"><i class="icon-key"></i></div>
+                                    <div class="features-content">
+                                        <h4>Aim</h4>
+                                        <p>With PsychBot, you can get the support you need to manage your symptoms and improve your mental health, anytime and anywhere. Our chatbot is available 24/7, and it's easy to use - simply answer a few questions about your symptoms and get started on the path to healing. </p>
+                                    </div>
+                                </div>
+                            </div>           
+                            <div class="col-md-6 col-sm-6">
+                                <div class="features-box wow fadeInLeft" data-wow-delay="0.9s">
+                                    <div class="features-icon"><i class="icon-diamond"></i></div>
+                                    <div class="features-content">
+                                        <h4>Values</h4>
+                                        <p>We think that mental health can not be compromised. That's why PsychBot is accessible to every person who is in need of consultation.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <div class="features-box wow fadeInLeft" data-wow-delay="1.2s">
+                                    <div class="features-icon"><i class="icon-bubble"></i></div>
+                                    <div class="features-content">
+                                        <h4>Easy to Use</h4>
+                                        <p>Our chatbot is available 24/7, and it's easy to use - simply answer a few questions about your symptoms and get started on the path to healing.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 col-sm-12 padding-none">
+                <div class="feature-thumb wow fadeInRight" data-wow-delay="0.3s">
+                    <img width="100%" src="{% static 'images/8.jpg' %}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contact Section Start -->
+<section id="contact" class="section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-header text-center">
+                    <h2 id="contact_heading" class="section-title wow fadeInDown" data-wow-delay="0.3s">Contact</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row contact-form-area wow fadeInUp" data-wow-delay="0.4s">
+            <div class="col-md-12 col-lg-12 col-sm-12">
+                <div class="contact-block">
+                    <h2>Get In Touch</h2>                    
+                    <!-- <form id="contact_form" method="post" action="{% url 'contact_us' %}"> -->
+                        <div id="contact_div" class="row clearfix">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Name" required data-error="Please enter your name">
+                                    <div class="help-block with-errors"></div>
+                                </div>                                 
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" placeholder="Email" id="email" class="form-control" name="email" required data-error="Please enter your email">
+                                    <div class="help-block with-errors"></div>
+                                </div> 
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input type="text" placeholder="Subject" name="msg_subject" id="msg_subject" class="form-control" required data-error="Please enter your subject">
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group"> 
+                                    <textarea class="form-control" name="message" id="message" placeholder="Your Message" rows="5" data-error="Write your message" required></textarea>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="submit-button">
+                                    <input class="btn btn-primary" id="form-submit" value="Send Message" type="button">
+                                    <input class="btn btn-outline-primary" id="apply_doctor" value="Apply as doctor" type="button">
+                                    <div id="msgSubmit" class="h3 text-center hidden"></div> 
+                                    <div class="clearfix"></div> 
+                                </div>
+                            </div>
+                        </div>
+                        <div id="doctor_div" class="row d-none clearfix">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="doctor_name" name="doctor_name" placeholder="Name" required data-error="Please enter your name">
+                                    <div class="help-block with-errors"></div>
+                                </div>                                 
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" placeholder="Email" id="doctor_email" class="form-control" name="doctor_email" required data-error="Please enter your email">
+                                    <div class="help-block with-errors"></div>
+                                </div> 
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" placeholder="Country" name="doctor_country" id="doctor_country" class="form-control" required data-error="Please enter your country">
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" placeholder="City" name="doctor_city" id="doctor_city" class="form-control" required data-error="Please enter your city">
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" placeholder="Qualification" name="doctor_qualification" id="doctor_qualification" class="form-control" required data-error="Please enter your qualification">
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group"> 
+                                    <input type="text" placeholder="Number" name="doctor_number" id="doctor_number" class="form-control" required data-error="Please enter your number">
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="submit-button">
+                                    <input class="btn btn-primary" id="doc_info" value="Send Message" type="button">
+                                    <input class="btn btn-outline-primary" id="contact_btn" value="Contact Us" type="button">
+                                    <div id="msgSubmit" class="h3 text-center hidden"></div> 
+                                    <div class="clearfix"></div> 
+                                </div>
+                            </div>
+                        </div>               
+                    <!-- </form> -->
+                </div>
+            </div>
+        </div>
+    </div> 
+</section>
+
+
+<!-- Footer Section Start -->
+<footer id="footer" class="footer-area section-padding">
+    <div class="container">
+        <div class="container">
+            <div class="row clearfix">
+                <div class="col-lg-5 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay="0.2s">
+                    <div class="footer-logo mb-3"><img style= "width:150px;" src="{% static 'images/logo_new.png' %}" alt=""></div>
+                    <p>Nothing in this world can torment you as much as your own thoughts.</p>
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay="0.4s">
+                    <h3 class="footer-titel">PsychBot</h3>
+                    <ul>
+                        <li><a href="#hero-area">Home</a></li>
+                        <li><a href="#feature">Features</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay="0.6s">
+                    <h3 class="footer-titel">About</h3>
+                    <ul>
+                        <li><a href="#testimonial">Vision</a></li>
+                        <li><a href="#About">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+<!--                <div class="col-lg-3 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay="0.8s">-->
+<!--                    <h3 class="footer-titel">Find us on</h3>-->
+<!--                    <div class="social-icon">-->
+<!--                        <a class="facebook" href="#"><i class="icon-social-facebook"></i></a>-->
+<!--                        <a class="twitter" href="#"><i class="icon-social-twitter"></i></a>-->
+<!--                        <a class="instagram" href="#"><i class="icon-social-dribbble"></i></a>-->
+<!--                        <a class="linkedin" href="#"><i class="icon-social-youtube"></i></a>-->
+<!--                    </div>-->
+<!--                </div>-->
+                <div class="col-lg-3 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay="0.8s">
+                    <h3 class="footer-titel">Find us on</h3>
+<!--                    <div class="contact-right">-->
+<!--                        <div class="single-contact">-->
+<!--                            <div class="contact-icon"><i class="icon-pointer"></i></div>-->
+<!--                            <p>National College of Business Administration & Economics.<br> Lahore, Pakistan.</p>-->
+<!--                        </div>-->
+<!--                        <div class="single-contact">-->
+<!--                            <div class="contact-icon"><i class="icon-envelope"></i></div>-->
+<!--                            <p><a href="#">psychbot@gmail.com</a></p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <ul>
+                        <li class="position-relative" style="display: -webkit-box;"><i style="position: absolute; top: 7px;" class="icon-pointer pr-2"></i><p class="pl-4">National College of Business Administration & Economics. Lahore, Pakistan.</p></li>
+                        <li class="position-relative" style="display: -webkit-box;"><i style="position: absolute; top: 7px;" class="icon-envelope pr-2"></i><p class="pl-4">psychbot@gmail.com</p></li>
+<!--                        <li><a href="#contact">Contact</a></li>-->
+                    </ul>
+            </div>
+            </div>
+        </div>  
+    </div>     
+</footer>
+
+<section id="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p>Copyright © psychbot.co. All Right Reserved</p>
+            </div>
+        </div>
+    </div>
+</section>   
+
+<!-- Go to Top Link -->
+<a href="#" class="back-to-top">
+    <i class="lni-arrow-up"></i>
+</a>
+
+<!-- Preloader -->
+<div id="preloader">
+    <div class="loader" id="loader-1"></div>
+</div>
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="{% static 'assets/js/jquery-min.js' %}"></script>
+<script src="{% static 'assets/js/popper.min.js' %}"></script>
+<script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+
+<script src="{% static 'assets/js/slick.min.js' %}"></script>
+<script src="{% static 'assets/js/wow.js' %}"></script>
+<script src="{% static 'assets/js/jquery.nav.js' %}"></script>
+<script src="{% static 'assets/js/scrolling-nav.js' %}"></script>
+<script src="{% static 'assets/js/jquery.easing.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.slicknav.js' %}"></script>
+
+<script src="{% static 'assets/js/main.js' %}"></script>
+<script src="{% static 'assets/js/form-validator.min.js' %}"></script>
+<script src="{% static 'assets/js/contact-form-script.min.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.js" integrity="sha512-uE2UhqPZkcKyOjeXjPCmYsW9Sudy5Vbv0XwAVnKBamQeasAVAmH6HR9j5Qpy6Itk1cxk+ypFRPeAZwNnEwNuzQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+
+// window.onload = function() {
+//     debugger;
+//     var form_data = new FormData()
+//     $.ajax({
+//         type: "POST",
+//         url: "/visitors/",
+//         data: form_data,
+//         cache: false,
+//         processData: false,
+//         contentType: false,
+//         success: function(data){
+//             console.log(data)
+//         }
+//     })
+// };
+
+
+$('#apply_doctor').click(function(){
+    $('#doctor_div').removeClass('d-none')
+    $('#contact_div').addClass('d-none')
+    $('#contact_heading').text('Apply as Doctor')
+})
+
+$('#contact_btn').click(function(){
+    $('#contact_div').removeClass('d-none')
+    $('#doctor_div').addClass('d-none')
+    $('#contact_heading').text('Contact')
+})
+
+$("#form-submit").click(function(){
+    var name = $("#name").val();
+    var email = $("#email").val();
+    var msg_subject= $("#msg_subject").val();
+    var message = $("#message").val();
+
+    var form_data = new FormData()
+    form_data.append('name', name)
+    form_data.append('email', email)
+    form_data.append('msg_subject', msg_subject)
+    form_data.append('message', message)
+    $.ajax({
+        type: "POST",
+        url: "/contact/",
+        data: form_data,
+        cache: false,
+        processData: false,
+        contentType: false,
+        success: function(data){
+            console.log(data)
+            status = data['status']
+            if (status == 'success'){
+                $("#About").notify(
+                "Your request has been submitted successfully.", "info", 
+                { position:"right" }
+                );
+                // $.notify("Your request has been submitted successfully.", "info");
+                $("#name").val("");
+                $("#email").val("");
+                $("#msg_subject").val("");
+                $("#message").val("");
+            }
+        }
+    })
+});
+
+
+$("#doc_info").click(function(){
+    var name = $("#doctor_name").val();
+    var email = $("#doctor_email").val();
+    var number = $("#doctor_number").val();
+    var qualification = $("#doctor_qualification").val();
+    var city = $("#doctor_city").val();
+    var country = $("#doctor_country").val();
+
+
+    var form_data = new FormData()
+    form_data.append('name', name)
+    form_data.append('email', email)
+    form_data.append('number', number)
+    form_data.append('qualification', qualification)
+    form_data.append('city', city)
+    form_data.append('country', country)
+    $.ajax({
+        type: "POST",
+        url: "/apply/",
+        data: form_data,
+        cache: false,
+        processData: false,
+        contentType: false,
+        success: function(data){
+            debugger;
+            console.log(data)
+            status = data['status']
+            if (status == 'success'){
+                $("#About").notify(
+                "Your request has been submitted successfully. We will get back to you through email", "info", 
+                { position:"right" }
+                );
+                // $.notify("Your request has been submitted successfully.", "info");
+                $("#doctor_name").val("");
+                $("#doctor_email").val("");
+                $("#doctor_number").val("");
+                $("#doctor_country").val("");
+                $("#doctor_city").val("");
+                $("#doctor_qualification").val("");
+            }
+        }
+    })
+});
+</script>
+</body>
+</html>

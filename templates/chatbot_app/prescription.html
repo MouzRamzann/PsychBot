@@ -1,0 +1,214 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+
+<head>
+<title>PsychBot</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="description" content="PsychBot - A Psychological disorder predicting chatbot.">
+<meta name="author" content="Momina Imran, Mouz Ramzan">
+    
+<link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+<!-- VENDOR CSS -->
+<link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap.min.css' %}" ><!-- Bootstrap CSS -->
+<link rel="stylesheet" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
+
+<!-- MAIN CSS -->
+
+<link rel="stylesheet" href="{% static 'dark_assets/css/main.css' %}">
+<link rel="stylesheet" href="{% static 'dark_assets/css/color_skins.css' %}">
+</head>
+<body class="theme-cyan">
+
+    <!-- Page Loader -->
+<div class="page-loader-wrapper">
+    <div class="loader">
+        <div class="m-t-30"><img src="{% static 'images/logo_new.png' %}" width="48" height="48" alt=""></div>
+        <p>Please wait...</p>        
+    </div>
+</div>
+<!-- Overlay For Sidebars -->
+
+<div id="wrapper">
+
+    <nav class="navbar navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-btn">
+                <button type="button" class="btn-toggle-offcanvas"><i class="lnr lnr-menu fa fa-bars"></i></button>
+            </div>
+
+            <div class="navbar-brand">
+                <a href="{% url 'index' %}"><img src="{% static 'images/logo_new.png' %}" alt="" class="img-responsive logo"></a>
+            </div>
+            
+            <div class="navbar-right">
+                <div id="navbar-menu">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="{% url 'chat_page' %}" class="icon-menu d-none d-sm-block"><i class="icon-bubbles"></i></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'logout' %}" class="icon-menu"><i class="icon-login"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="left-sidebar" class="sidebar">
+        <div class="sidebar-scroll">
+            <div class="user-account">
+                <img src="{% static 'images/user.png' %}" id="profile_pic" class="rounded-circle user-photo" alt="User Profile Picture">
+                <div class="dropdown">
+                    <span>Welcome,</span>
+                    <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong>{{user.full_name}}</strong></a>
+                    <ul class="dropdown-menu dropdown-menu-right account">
+                        <li><a href="{% url 'profile' %}"><i class="icon-user"></i>My Profile</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{% url 'logout' %}"><i class="icon-power"></i>Logout</a></li>
+                    </ul>
+                </div>
+                <hr>
+            </div>
+                
+            <!-- Tab panes -->
+            <div class="tab-content p-l-0 p-r-0">
+                <div class="tab-pane active" id="menu">
+                    <nav id="left-sidebar-nav" class="sidebar-nav">
+                        <ul id="main-menu" class="metismenu">                            
+                            <li>
+                                <a href="{% url 'dashboard' %}"><i class="icon-home"></i> <span>Home</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'profile' %}"><i class="icon-user"></i> <span>Profile</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'chat_page' %}"><i class="icon-bubble"></i> <span>Chat</span></a>
+                            </li>
+                            <li class="active">
+                                <a href="{% url 'prescription' %}"><i class="icon-doc"></i> <span>Prescription</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'get_doctor_list' %}"><i class="icon-calendar"></i> <span>Appointment</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'scheduled_appointment' %}"><i class="icon-notebook"></i> <span>Scheduled Appointment</span></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>            
+            </div>          
+        </div>
+    </div>
+
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <div class="row">
+                    <div class="col-lg-5 col-md-8 col-sm-12">                        
+                        <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a>Prescription</h2>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}"><i class="icon-home"></i></a></li>
+                            <li class="breadcrumb-item active">Prescription</li>
+                        </ul>
+                    </div>            
+                </div>
+            </div>
+
+            <div class="row clearfix" id="download_page">
+                <div class="col-lg-12">
+                    <input type="hidden" name="hidden_id" id="hidden_id" value="{{user.id}}">
+                    <div class="card">
+                        <div class="body">
+                            <h3>Disorder Details :</h3>
+                            <div class="tab-content mt-4">
+                                <div role="tabpanel" class="tab-pane in active" id="details" aria-expanded="true">
+                                    <div class="row clearfix">
+                                        <hr>
+                                        <div class="col-md-6">
+                                            <h4>Symptoms : </h4>
+                                            <ul>
+                                                <li class="welcome_list">Insomnia.</li>
+                                                <li class="welcome_list">Lack of concentration.</li>
+                                                <li class="welcome_list">Negative Thoughts.</li>
+                                                <li class="welcome_list">Suicidal Thoughts.</li>
+                                                <li class="welcome_list">Material Possesion.</li>
+                                                <li class="welcome_list">Anger.</li>
+                                                <li class="welcome_list">Fatigue.</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h4>Helpful Methods : </h4>
+                                            <ul>
+                                                <li class="welcome_list">Do Exercise</li>
+                                                <li class="welcome_list">Eat Healthy</li>
+                                                <li class="welcome_list">Think Positive</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="col-md-12">
+                                            <h4>Predicted Disorder : </h4>
+                                            <ul>
+                                                <li class="welcome_list">Depression</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix">                               
+                                        <div class="hidden-print col-md-12 text-right">
+                                            <hr>
+                                            <button class="btn btn-outline-secondary" onclick="myApp.printTable()"><i style="margin-right: 10px;" class="icon-printer"></i>Download</button>
+                                            <!-- <button class="btn btn-primary">Submit</button> -->
+                                        </div>
+                                    </div>                                    
+                                </div>                                          
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<!-- Javascript -->
+<script src="{% static 'dark_assets/bundles/libscripts.bundle.js' %}"></script>
+<script src="{% static 'dark_assets/bundles/vendorscripts.bundle.js' %}"></script>
+
+<script src="{% static 'dark_assets/bundles/mainscripts.bundle.js' %}"></script>
+<script>
+        $(document).ready(function(){
+    var hidden_id = $("#hidden_id").val();
+    var form_data = new FormData()
+    form_data.append('hidden_id', hidden_id)
+    $.ajax({
+        type: "POST",
+        url: "/get_profile/",
+        data: form_data,
+        cache: false,
+        processData: false,
+        contentType: false,
+        success: function(data){
+            console.log(data)
+            var image = data['data_list'][0]['image']
+            $("#profile_pic").attr("src", image);
+
+        }
+    })
+});
+    let myApp = new function () {
+        this.printTable = function () {
+            let tab = document.getElementById('download_page');
+            let win = window.open('', '', 'height=700,width=700');
+            win.document.write(tab.outerHTML);
+            win.document.close();
+            win.print();
+        }
+    }
+</script>
+</body>
+</html>
